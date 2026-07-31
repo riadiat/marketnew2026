@@ -27,8 +27,14 @@ ewmarket.sa/
 ├── storage/                cache, sessions, logs, uploads, composer vendor
 ├── database/               ewmarket_08_01_2024.sql (153 MB dump)
 ├── .docker/                PHP 8.3 + Apache dev image
-└── docker-compose.yml
+├── docker-compose.yml
+└── admin/                  dead code — see below
 ```
+
+`admin/` at the project root (not `public_html/admin/`) holds a single stale copy
+of `controller/common/dashboard.php` with an extra `test()` method someone added
+while debugging SMTP. It sits outside the docroot and is never loaded. Safe to
+delete.
 
 Three separate applications share one database and one `system/` framework:
 storefront, `/admin/`, and `/seller-cp/`. Each has its own `config.php`,
