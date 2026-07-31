@@ -1,0 +1,258 @@
+{{ header }}
+<style>
+    .btn-primary-2{
+        border: 1px solid #2CB7B3;
+        background: #fff;
+    }
+    .btn-primary-2:hover,.btn-primary-2:focus,.btn-primary-2:active{
+        background: #2CB7B3;
+        color: #fff !important;
+    }
+</style>
+<div id="content">
+    <div class="container-fluid"><br />
+        <br />
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1 class="panel-title"><i class="fa fa-lock"></i> {{ text_register }}</h1>
+                    </div>
+                    <div class="panel-body">
+                        {% if warning %}
+                            <div class="alert alert-danger">
+                                <p>{{ warning }}</p>
+                            </div>
+                        {% endif %}
+                        <form action="{{ action }}" method="post">
+                            <div class="form-group required">
+                                <label class="control-label" for="input-first_name">{{ entry_firstname }}</label>
+                                <input type="text" id="input-first_name" name="first_name" value="{{ first_name }}" class="form-control" placeholder="{{ entry_firstname }}">
+                                {% if error_first_name %}
+                                    <p class="text-danger">{{ error_first_name }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label" for="input-last_name">{{ entry_lastname }}</label>
+                                <input type="text" id="input-last_name" name="last_name" value="{{ last_name }}" class="form-control" placeholder="{{ entry_lastname }}">
+                                {% if error_last_name %}
+                                    <p class="text-danger">{{ error_last_name }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-age">{{ entry_age }}</label>
+                                <input type="text" id="input-age" name="age" value="{{ age }}" class="form-control" placeholder="{{ entry_age }}">
+                                {% if error_age %}
+                                    <p class="text-danger">{{ error_age }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-region">{{ entry_region }}</label>
+                                <input type="text" id="input-region" name="region" value="{{ region }}" class="form-control" placeholder="{{ entry_region }}">
+                                {% if error_region %}
+                                    <p class="text-danger">{{ error_region }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-nation_id">{{ entry_nation_id }}</label>
+                                <input type="text" id="input-nation_id" name="nation_id" value="{{ nation_id }}" class="form-control" placeholder="{{ entry_nation_id }}">
+                                {% if error_nation_id %}
+                                    <p class="text-danger">{{ error_nation_id }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-bank_name">{{ entry_bank_name }}</label>
+                                <input type="text" id="input-bank_name" name="bank_name" value="{{ bank_name }}" class="form-control" placeholder="{{ entry_bank_name }}">
+                                {% if error_bank_name %}
+                                    <p class="text-danger">{{ error_bank_name }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-bank_iban">{{ entry_bank_iban }}</label>
+                                <input type="text" id="input-bank_iban" name="bank_iban" value="{{ bank_iban }}" class="form-control" placeholder="{{ entry_bank_iban }}">
+                                {% if error_bank_iban %}
+                                    <p class="text-danger">{{ error_bank_iban }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-email">{{ entry_email }}</label>
+                                <input type="email" id="input-email" name="email" value="{{ email }}" class="form-control" placeholder="{{ entry_email }}">
+                                {% if error_email %}
+                                    <p class="text-danger">{{ error_email }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required hidden">
+                                <label class="control-label">{{ entry_simple_img }}</label>
+                                <button type="button" id="button-upload" data-loading-text="{{ text_loading }}" class="btn btn-primary-2 btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+                                <input type="hidden" name="simple_img" value="{{ simple_img }}" id="input-simple_img" />
+                                {% if error_simple_img %}
+                                    <p class="text-danger">{{ error_simple_img }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label">{{ entry_image }}</label>
+                                <button type="button" id="button-upload" data-loading-text="{{ text_loading }}" class="btn btn-primary-2 btn-block"><i class="fa fa-upload"></i> {{ button_upload }}</button>
+                                <input type="hidden" name="image" value="{{ image }}" id="input-image" />
+                                {% if error_image %}
+                                    <p class="text-danger">{{ error_image }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-telephone">{{ entry_telephone }}</label>
+                                <div class="input-group">
+                                    <input type="tel" id="input-telephone" name="telephone" value="{{ telephone }}" class="form-control" placeholder="{{ entry_telephone }}">
+                                    <span class="input-group-addon">+966</span>
+                                </div>
+                                {% if error_telephone %}
+                                    <p class="text-danger">{{ error_telephone }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-instagram">{{ entry_instagram }}</label>
+                                <div class="input-group">
+                                    <input type="text" id="input-instagram" name="instagram" value="{{ instagram }}" class="form-control" placeholder="{{ entry_instagram }}">
+                                    <span class="input-group-addon">@</span>
+                                </div>
+                                {% if error_instagram %}
+                                    <p class="text-danger">{{ error_instagram }}</p>
+                                {% endif %}
+                            </div>
+
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-username">{{ entry_username }}</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" value="{{ username }}" name="username" placeholder="{{ entry_username }}">
+                                    <span class="input-group-addon" dir="ltr">{{ url }}</span>
+                                </div>
+                                {% if error_username %}
+                                    <p class="text-danger">{{ error_username }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-desc">{{ entry_description }}</label>
+                                <textarea name="desc" class="form-control" id="input-desc" cols="30" rows="5">{{ desc }}</textarea>
+                                {% if error_desc %}
+                                <p class="text-danger">{{ error_desc }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="input-note">{{ entry_note }}</label>
+                                <textarea name="note" class="form-control" id="input-note" cols="30" rows="5">{{ note }}</textarea>
+                            </div>
+
+                            <div class="form-group required">
+                                <label class="control-label" for="input-password">{{ entry_password }}</label>
+                                <input type="password" id="input-password" name="password" value="{{ password }}" class="form-control" placeholder="{{ entry_password }}">
+                                {% if error_password %}
+                                    <p class="text-danger">{{ error_password }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label" for="input-confirm">{{ entry_confirm }}</label>
+                                <input type="password" id="input-password" name="confirm" value="{{ confirm }}" class="form-control" placeholder="{{ entry_confirm }}">
+                                {% if error_confirm %}
+                                    <p class="text-danger">{{ error_confirm }}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label><input type="checkbox" name="agree" value="1"> {{ text_agree }}</label>
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-block btn-primary">{{ text_register }}</button>
+                            </div>
+                            <div class="form-group text-center">
+                                <p>لديك حساب ؟  <a href="{{ login }}">تسجيل الدخول </a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="agree" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{ agree_title }}</h4>
+            </div>
+            <div class="modal-body">
+                {{ agree_content }}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('button[id^=\'button-upload\']').on('click', function() {
+        var node = this;
+
+        $('#form-upload').remove();
+
+        $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+        $('#form-upload input[name=\'file\']').trigger('click');
+
+        if (typeof timer != 'undefined') {
+            clearInterval(timer);
+        }
+
+        timer = setInterval(function() {
+            if ($('#form-upload input[name=\'file\']').val() != '') {
+                clearInterval(timer);
+
+                $.ajax({
+                    url: '{{ catalog }}index.php?route=tool/upload',
+                    type: 'post',
+                    dataType: 'json',
+                    data: new FormData($('#form-upload')[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $(node).button('loading');
+                    },
+                    complete: function() {
+                        $(node).button('reset');
+                    },
+                    success: function(json) {
+                        $('.text-danger').remove();
+
+                        if (json['error']) {
+                            $(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
+                        }
+
+                        if (json['success']) {
+                            alert('تم رفع الصورة');
+                            $('#button-upload').html('<i class="fa fa-upload"></i> تم رفع الصورة');
+                            $(node).parent().find('input').val(json['code']);
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        }, 500);
+    });
+    var v = $('input[name="simple_img"]').val();
+
+    if(v.length !== 0){
+        $('#button-upload').html('<i class="fa fa-upload"></i> تم رفع الصورة');
+    }
+</script>
+
+{{ footer }}

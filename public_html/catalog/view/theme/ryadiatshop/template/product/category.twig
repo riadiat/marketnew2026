@@ -1,0 +1,156 @@
+{{ header }}
+<div id="product-category" class="uk-container uk-container-center">
+  {% if thumb %}
+  <div class="block-banner block-banner-category uk-margin-bottom" style="background-image: url('{{ thumb }}')"></div>
+  {% endif %}
+
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <ul class="uk-breadcrumb">
+            {% for breadcrumb in breadcrumbs %}
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if categories %}
+
+      <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        <h1 class="uk-panel-title">{{ heading_title }}</h1>
+          {% if description %}
+            <p class="description-category">{{ description }}</p>
+          {% endif %}
+
+          {#{% if categories %}
+          <div id="slider-category" class="swiper-container slider-sub-category">
+              <div class="swiper-wrapper">
+                  {% for category in categories %}
+                      {% if category.thumb %}
+                          <div class="swiper-slide">
+                              <a href="{{ category.href }}" class="block-sub-category" style="background-image: url('{{ category.thumb }}')">
+                                  <span class="uk-flex uk-flex-middle"><span class="inside-flex">{{ category.name }}</span></span>
+                              </a>
+                          </div>
+                      {% endif %}
+
+                  {% endfor %}</div>
+
+              <div class="slider-category-button-next"><i class="uk-icon-angle-right fa-2x"></i></div>
+              <div class="slider-category-button-prev"><i class="uk-icon-angle-left fa-2x"></i></div>
+          </div>
+          {% endif %}#}
+          {% if categories %}
+              <ul class="list-subcategory">
+                  {% for category in categories %}
+                      <li><a href="{{ category.href }}"><i class="uk-icon-angle-right"></i> {{ category.name }}</a></li>
+                  {% endfor %}
+              </ul>
+          {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+        {% if column_left %}
+            {% set content_grid = 'uk-width-medium-7-10' %}
+        {% else %}
+        {% set content_grid = 'uk-width-medium-1-1' %}
+        {% endif %}
+        <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+            {% if column_left %}
+                {{ column_left }}
+            {% endif %}
+
+            <div class="{{ content_grid }}">
+                <div class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.block-product'}">
+                    {% if products %}
+                        <div class="uk-width-1-1">
+                            <div class="uk-grid uk-grid-small">
+                                <div class="uk-width-medium-2-4"></div>
+                                <div class="uk-width-medium-1-4 uk-width-1-2">
+                                    <div class="form-group custom-filter input-group input-group-lg">
+                                        <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
+                                        <select id="input-sort" class="form-control" onchange="location = this.value;">
+                                            {% for sorts in sorts %}
+                                                {% if sorts.value == '%s-%s'|format(sort, order) %}
+                                                    <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+                                                {% else %}
+                                                    <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="uk-width-medium-1-4 uk-width-1-2">
+                                    <div class="form-group custom-filter input-group input-group-lg">
+                                        <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+                                        <select id="input-limit" class="form-control" onchange="location = this.value;">
+                                            {% for limits in limits %}
+                                                {% if limits.value == limit %}
+                                                    <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+                                                {% else %}
+                                                    <option value="{{ limits.href }}">{{ limits.text }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for product in products %}
+                            <div class="uk-width-medium-1-4 uk-width-1-2">
+                                {% include 'ryadiatshop/template/product/_block_product.twig' with product %}
+                            </div>
+                        {% endfor %}
+
+                        {% if pagination %}
+                            <div class="uk-width-1-1">
+                                {{ pagination }}
+                            </div>
+                        {% endif %}
+                    {% else %}
+
+                        <div class="uk-width-1-1">
+                            <div class="empty">
+                                <p>{{ text_empty }}</p>
+                                <div class="uk-text-center uk-margin-top">
+                                    <a href="{{ continue }}" class="btn btn-primary min-w">{{ button_continue }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    var slider_1 = new Swiper('#slider-category', {
+        simulateTouch:false,
+        slidesPerView: 6,
+        navigation: {
+            nextEl: '.slider-category-button-next',
+            prevEl: '.slider-category-button-prev'
+        },
+        breakpoints: {
+            1024: {
+                slidesPerView: 6,
+                spaceBetween: 10,
+            },
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 10,
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            320: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            }
+        }
+    });
+</script>
+{{ footer }}

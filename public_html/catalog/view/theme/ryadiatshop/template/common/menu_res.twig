@@ -1,0 +1,41 @@
+<div id="side-menu" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar uk-offcanvas-bar-flip">
+        <div class="uk-margin-top uk-margin-bottom text-center">
+            <a href="{{ home }}">
+                <img src="catalog/view/theme/ryadiatshop/images/logo.png" title="" alt="" />
+            </a>
+        </div>
+
+        <ul data-uk-nav="" class="uk-nav uk-nav-offcanvas uk-nav-parent-icon">
+            <li><a href="{{ home }}">{{ text_home }}</a></li>
+            {% for category in categories %}
+                {% if category.children %}
+                    <li class="uk-parent">
+                        <a href="#">{{ category.name }}</a>
+                        <ul class="uk-nav-sub uk-nav-parent-icon">
+                            {% for children in category.children %}
+                                {% if children.children %}
+                                <li class="uk-parent su-third">
+                                    <a class="sub-next" href="#">{{ children.name }}</a>
+                                    <ul class="uk-nav-sub" style="display: none">
+                                        {% for child2 in children.children %}
+                                            <li><a href="{{ child2.href }}">{{ child2.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{{ children.href }}">{{ children.name }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+    </div>
+</div>

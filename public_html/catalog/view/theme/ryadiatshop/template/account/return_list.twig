@@ -1,0 +1,51 @@
+{{ header }}
+<div id="account-return" class="uk-container uk-container-center uk-margin-large-top">
+
+  <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+    <ul class="uk-breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    <h1 class="uk-panel-title">{{ heading_title }}</h1>
+      {% if returns %}
+        <div class="custom-table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <td>{{ column_return_id }}</td>
+              <td>{{ column_status }}</td>
+              <td>{{ column_date_added }}</td>
+              <td>{{ column_order_id }}</td>
+              <td></td>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for return in returns %}
+              <tr>
+                <td data-title="{{ column_return_id }}">#{{ return.return_id }}</td>
+                <td data-title="{{ column_status }}">{{ return.status }}</td>
+                <td data-title="{{ column_date_added }}">{{ return.date_added }}</td>
+                <td data-title="{{ column_order_id }}">{{ return.order_id }}</td>
+                <td data-title="{{ text_action }}" class="uk-text-right"><a href="{{ return.href }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      {% else %}
+        <p>{{ text_empty }}</p>
+      {% endif %}
+    <div class="buttons clearfix">
+      <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+    </div>
+  </div>
+</div>
+
+{{ footer }} 

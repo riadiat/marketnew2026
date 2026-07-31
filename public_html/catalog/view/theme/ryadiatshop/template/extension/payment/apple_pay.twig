@@ -1,0 +1,108 @@
+<style>
+    #applePay {
+        width: 150px;
+        height: 50px;
+        display: none;
+        border-radius: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20px;
+        background:#000 -webkit-named-image(apple-pay-logo-white) no-repeat 50% 50%;
+        background-size: 60%;
+    }
+</style>
+<div>
+    <button type="button" id="applePay" class="uk-button"></button>
+    <p style="display:none" id="notActive" class="uk-text-danger text-center">{{ text_not_activated }}</p>
+    <p style="display:none" id="notgot" class="uk-text-danger text-center"></p>
+</div>
+
+
+<script>
+    var debug = false;
+    if (window.ApplePaySession) {
+        var merchantIdentifier = '{{ production_merchantidentifier }}',
+            promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier);
+        promise.then(function (canMakePayments) {
+            if (canMakePayments) {
+                document.getElementById("applePay").style.display = "block";
+            } else {
+                document.getElementById("notActive").style.display = "block";
+            }
+        });
+    }
+    document.getElementById("applePay").onclick = function(evt) {
+        var shippingMethods = [{label: '{{shipping['title']}}', amount: {{shipping['value']}}, detail:'{{shipping['title']}}',identifier:'{{shipping['code']}}'}],
+            paymentRequest = {
+                currencyCode: '{{ currency_code }}',
+                countryCode: '{{countryCode}}',
+                lineItems:{{ lineItems }},
+                total: {
+                    label: '{{ order_info['store_name'] }}',
+                    type: "final",
+                    amount: {{order_info['total']}}
+                },
+                shippingType: 'delivery',
+                supportedNetworks: ['masterCard', 'visa', 'mada' ],
+                shippingMethods: shippingMethods,
+                merchantCapabilities: [ 'supports3DS']
+            },
+            session = new ApplePaySession(2, paymentRequest);
+        session.onvalidatemerchant = function (event) {
+            var promise = performValidation(event.validationURL);
+            promise.then(function (merchantSession) {
+                session.completeMerchantValidation(merchantSession);
+            });
+        };
+        session.onpaymentauthorized = function (event) {
+            var promise = sendPaymentToken(event.payment.token);
+            promise.then(function (success) {
+                var status;
+                if (success){
+                    status = ApplePaySession.STATUS_SUCCESS;
+                    //document.getElementById("applePay").style.display = "none";
+                    //document.getElementById("success").style.display = "block";
+                } else {
+                    status = ApplePaySession.STATUS_FAILURE;
+                }
+                session.completePayment(status);
+            });
+        }
+
+        session.oncancel = function(event) {
+            console.log('starting session.cancel');
+        }
+
+        session.begin();
+    };
+    function performValidation(valURL) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function() {
+                var response = JSON.parse(this.responseText);
+                if(response.success){
+                    resolve(response['response']);
+                }else {
+                    alert(response['error'])
+                }
+            };
+            xhr.onerror = reject;
+            xhr.open('GET', 'index.php?route=extension/payment/apple_pay/validPayment&u=' + encodeURI(valURL) , "_self");
+            xhr.send();
+        });
+    }
+    function sendPaymentToken(paymentToken) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: 'index.php?route=extension/payment/apple_pay/confirm',
+                type: 'post',
+                dataType: 'json',
+                data: paymentToken,
+                success: function(json) {
+                    window.location.href = json['redirect'];
+                }
+            });
+            resolve(reject);
+        });
+    }
+</script>

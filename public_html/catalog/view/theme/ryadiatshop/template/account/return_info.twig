@@ -1,0 +1,108 @@
+{{ header }}
+<div id="account-return" class="uk-container uk-container-center uk-margin-large-top">
+
+  <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+    <ul class="uk-breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    <h1 class="uk-panel-title">{{ heading_title }}</h1>
+
+    <div class="uk-grid" data-uk-grid-margin data-uk-grid-match="{target:'.block-panel'}">
+
+      <div class="uk-width-medium-1-2">
+        <div class="block-panel">
+          <h3>{{ text_return_detail }}</h3>
+          <div class="content">
+            <p><strong>{{ text_return_id }} : </strong> {{ return_id }}</p>
+            <p><strong>{{ text_date_added }} : </strong> {{ date_added }}</p>
+            <p><strong>{{ text_order_id }} </strong> {{ order_id }}</p>
+            <p><strong>{{ text_date_ordered }} : </strong> {{ date_ordered }}</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="uk-width-medium-1-2">
+        <div class="block-panel">
+          <h3>{{ text_product }}</h3>
+          <div class="content">
+              <p><strong>{{ column_product }} : </strong> {{ product }}</p>
+              <p><strong>{{ column_model }} : </strong> {{ model }}</p>
+              <p><strong>{{ column_quantity }} : </strong> {{ quantity }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="uk-width-medium-1-2">
+        <div class="block-panel">
+          <h3>{{ text_reason }}</h3>
+          <div class="content">
+            <p><strong>{{ column_reason }} : </strong> {{ reason }}</p>
+            <p><strong>{{ column_opened }} : </strong> {{ opened }}</p>
+            <p><strong>{{ column_quantity }} : </strong> {{ quantity }}</p>
+          </div>
+        </div>
+      </div>
+        {% if comment %}
+      <div class="uk-width-medium-1-2">
+        <div class="block-panel">
+          <h3>{{ text_comment }}</h3>
+          <div class="content">
+            <p><strong>{{ text_comment }} : </strong></p>
+            {{ comment }}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+
+      <div class="uk-width-medium-1-2">
+        <div class="block-panel">
+          <h3>{{ text_product }}</h3>
+          <div class="content">
+            <p><strong>{{ column_reason }} : </strong> {{ reason }}</p>
+            <p><strong>{{ column_opened }} : </strong> {{ opened }}</p>
+            <p><strong>{{ column_quantity }} : </strong> {{ quantity }}</p>
+          </div>
+        </div>
+      </div>
+
+
+        {% if histories %}
+          <div class="uk-width-1-1">
+            <div class="block-account-p">
+              <h3>{{ text_history }}</h3>
+              <ul class="list-history">
+                  {% for history in histories %}
+                      {% if history.comment %}
+                        <li>
+                          <div class="head uk-clearfix">
+                            <div class="uk-float-right">
+                              <span>{{ history.date_added }}</span>
+                            </div>
+                            <div class="uk-float-left">
+                              <span>{{ history.status }}</span>
+                            </div>
+                          </div>
+                          <div class="content-text">
+                              {{ history.comment }}
+                          </div>
+                        </li>
+                      {% endif %}
+
+                  {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% endif %}
+
+    </div>
+    <div class="buttons clearfix">
+      <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+    </div>
+  </div>
+</div>
+
+{{ footer }}

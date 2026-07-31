@@ -1,0 +1,55 @@
+{{ header }}
+<div id="account-newsletter" class="uk-margin-large-top">
+
+  <div class="uk-container uk-container-center custom-container">
+
+    <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+      <div class="uk-width-1-1">
+        <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+          <ul class="uk-breadcrumb">
+              {% for breadcrumb in breadcrumbs %}
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+              {% endfor %}
+          </ul>
+          <h1 class="uk-panel-title">{{ heading_title }}</h1>
+
+            {% if error_warning %}
+              <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+            {% endif %}
+
+
+          <form action="{{ action }}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label class="control-label">{{ entry_newsletter }}</label>
+                {% if newsletter %}
+                  <label class="radio-inline">
+                    <input type="radio" name="newsletter" value="1" checked="checked" />
+                      {{ text_yes }} </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="newsletter" value="0" />
+                      {{ text_no }}</label>
+                {% else %}
+                  <label class="radio-inline">
+                    <input type="radio" name="newsletter" value="1" />
+                      {{ text_yes }} </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="newsletter" value="0" checked="checked" />
+                      {{ text_no }}</label>
+                {% endif %}
+            </div>
+            <div class="form-group clearfix">
+              <div class="pull-left"><a href="{{ back }}" class="btn btn-default">{{ button_back }}</a></div>
+              <div class="pull-right">
+                <input type="submit" value="{{ button_continue }}" class="btn btn-primary" />
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ footer }}

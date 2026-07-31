@@ -1,0 +1,53 @@
+{{ header }}
+<div id="account-order" class="uk-container uk-container-center uk-margin-large-top">
+
+  <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+    <ul class="uk-breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    <h1 class="uk-panel-title">{{ heading_title }}</h1>
+
+      {% if orders %}
+        <div class="custom-table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th style="width: 20px;">#</th>
+              <th>{{ column_product }}</th>
+              <th>{{ column_status }}</th>
+              <th>{{ column_total }}</th>
+              <th>{{ column_date_added }}</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+              <tr>
+                <td data-title="{{ column_product }}">{{ order.order_id }}</td>
+                <td data-title="{{ column_product }}">{{ order.products }}</td>
+                <td data-title="{{ column_status }}">{{ order.status }}</td>
+                <td data-title="{{ column_total }}">{{ order.total }}</td>
+                <td data-title="{{ column_date_added }}">{{ order.date_added }}</td>
+                <td data-title="{{ text_action }}" class="uk-text-right"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      {% else %}
+        <div class="empty">
+          <p>{{ text_empty }}</p>
+        </div>
+      {% endif %}
+    <div class="buttons clearfix">
+      <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+    </div>
+  </div>
+</div>
+{{ footer }}

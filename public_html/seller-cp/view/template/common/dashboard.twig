@@ -1,0 +1,89 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_install %}
+    <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close pull-right" data-dismiss="alert">&times;</button>
+      <i class="fa fa-exclamation-circle"></i> {{ error_install }}</div>
+    {% endif %}
+
+
+    <div class="row">
+
+      <div class="col-sm-6">
+
+        <div class="tile tile-primary">
+          <div class="tile-heading">إجمالي عدد الطلبات للشهر الحالي</div>
+          <div class="tile-body"><i class="fa fa-shopping-bag"></i>
+            <h2 class="pull-right">{{ totalOrder }}</h2>
+          </div>
+            <div class="tile-footer">&nbsp;</div>
+        </div>
+
+      </div>
+
+      <div class="col-sm-6">
+        <div class="tile tile-primary">
+          <div class="tile-heading">رصيدك لهذا الشهر</div>
+          <div class="tile-body"><i class="fa fa-money"></i>
+            <h2 class="pull-right">{{ totalPrice }}</h2>
+          </div>
+          <div class="tile-footer"><a href="{{ archive_payment }}">ارشيف الدفعات المالية</a></div>
+        </div>
+
+      </div>
+
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-shopping-cart"></i> احدث الطلبات</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+              <tr>
+                <td class="text-right">#</td>
+                <td>اسم العميل</td>
+                <td>حالة الطلب</td>
+                <td>تاريخ الإضافة</td>
+                <td class="text-right">إجمالي الطلب</td>
+                <td class="text-right">عرض</td>
+              </tr>
+              </thead>
+              <tbody>
+              {% if orders %}
+                  {% for order in orders %}
+                    <tr>
+                      <td class="text-right">{{ order.order_id }}</td>
+                      <td>{{ order.customer }}</td>
+                      <td>{{ order.status }}</td>
+                      <td>{{ order.date_added }}</td>
+                      <td class="text-right">{{ order.total }}</td>
+                      <td class="text-right"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                  {% endfor %}
+              {% else %}
+                <tr>
+                  <td class="text-center" colspan="6">{{ text_no_results }}</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    {{ security }}
+
+</div>
+{{ footer }}

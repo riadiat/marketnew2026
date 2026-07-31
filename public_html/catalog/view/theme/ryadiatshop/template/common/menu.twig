@@ -1,0 +1,30 @@
+{% if categories %}
+{#  <div  data-uk-sticky="{top:-60}" class="wrap-menu uk-hidden-small">#}
+<div class="wrap-menu uk-hidden-small">
+    <ul class="navbar-menu">
+        <li><a href="{{ home }}">{{ text_home }}</a></li>
+        {% for category in categories %}
+            {% if category.children %}
+                <li><a href="{{ category.href }}">{{ category.name }}</a>
+                    <ul class="list-unstyled uk-text-left">
+                        {% for child in category.children %}
+                            <li>
+                                <a href="{{ child.href }}">{{ child.name }}</a>
+                                {% if child.children %}
+                                    <ul>
+                                        {% for child2 in child.children %}
+                                            <li><a href="{{ child2.href }}">{{ child2.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+  </div>
+{% endif %}

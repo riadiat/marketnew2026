@@ -1,0 +1,164 @@
+@media screen and (min-width: 768px) {
+  .custom-buttons-checkout{
+    .pull-right{
+      button{
+        min-width: 170px;
+      }
+    }
+  }
+  .min-w{
+    min-width: 170px;
+    position: relative;
+    z-index: 3;
+  }
+}
+@media screen and (max-width: 767px) {
+  .block-lang {
+    margin-top: -5px !important;
+  }
+
+  .show-menu {
+    display: inline-block;
+  }
+
+  .sine-logo {
+    img {
+      width: 65%;
+    }
+  }
+
+  .block-banner {
+    min-height: 300px;
+    margin-right: -25px;
+    margin-left: -25px;
+  }
+
+  .list-seller-tab {
+    font-size: 13px;
+    > li {
+      float: left;
+      width: 50%;
+    }
+  }
+
+  html[dir='rtl'] .list-seller-tab {
+    > li {
+      float: right !important;
+    }
+  }
+
+  .list-seller-tab > li a {
+    border: 1px #000 solid !important;
+    border-bottom: 0 !important;
+  }
+
+  .content-seller-tab {
+    border: #000000 1px solid !important;
+  }
+
+  .block-product .uk-button-primary {
+    font-size: 14px;
+  }
+
+  .home-tab {
+    >li{
+      a{
+        padding-right: 5px;
+        padding-left: 5px;
+        font-size: 14px;
+      }
+    }
+    img {
+      height: 15px;
+      width: 15px;
+    }
+  }
+
+  .list-order-status {
+    width: 300px;
+    font-size: 12px;
+    margin-right: -15px;
+    margin-left: -15px;
+    li {
+      margin: 0 5px !important;
+    }
+  }
+
+  .block-product button {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+  .list-tab{
+    li{
+      padding: 0 5px;
+    }
+  }
+
+  .block-product{
+    .content{
+      h3{
+        font-size: 14px;
+      }
+      .price{
+        font-size: 13px;
+        white-space: nowrap;
+      }
+    }
+  }
+  .footer-title {
+    font-size: 16px;
+    margin-bottom: 10px !important;
+  }
+  .menu-footer{
+    li{
+      a{
+        padding: 5px 0;
+      }
+    }
+  }
+  .block-form-mail{
+    button{
+      width: 70px;
+    }
+  }
+  .footer {
+    padding: 15px 0;
+    font-size: 13px;
+  }
+  .block-wrap2,.wrap-vendors{
+    padding: 20px 0;
+  }
+  .block-title-cu{
+    >div[class*='uk-float-']{
+      float: none;
+      width: 100%;
+    }
+  }
+  .custom-buttons-checkout{
+    top: 0;
+    .pull-right{
+      float: none !important;
+      button{
+        width: 49%;
+      }
+    }
+  }
+  .min-w{
+    width: 100%;
+  }
+
+  .list-price{
+    h2{
+      font-size: 20px;
+    }
+  }
+  .neg-margin{
+    margin-top: 35px !important;
+  }
+}
+
+@media screen and(max-width: 420px){
+  .payment-img{
+    width: 110px;
+  }
+}

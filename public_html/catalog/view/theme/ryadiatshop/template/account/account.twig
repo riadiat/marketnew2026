@@ -1,0 +1,44 @@
+{{ header }}
+<div id="account-account" class="uk-container uk-container-center uk-margin-large-top">
+
+  <div class="uk-panel uk-panel-box uk-panel-box-secondary">
+    <ul class="uk-breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    <h1 class="uk-panel-title">{{ heading_title }}</h1>
+      {% if success %}
+        <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+      {% endif %}
+
+    <div class="uk-grid" data-uk-grid-match>
+      <div class="uk-width-medium-1-2">
+        <div class="block-account-p">
+          <h3>{{ text_my_account }}</h3>
+          <ul class="list-unstyled">
+            <li><a href="{{ edit }}"><i class="uk-icon-angle-right fa-fw"></i> {{ text_edit }}</a></li>
+            <li><a href="{{ password }}"><i class="uk-icon-angle-right fa-fw"></i> {{ text_password }}</a></li>
+            <li><a href="{{ address }}"><i class="uk-icon-angle-right fa-fw"></i> {{ text_address }}</a></li>
+            <li><a href="{{ newsletter }}"><i class="uk-icon-angle-right fa-fw"></i> {{ text_newsletter }}</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="uk-width-medium-1-2">
+        <div class="block-account-p">
+          <h3>{{ text_my_orders }}</h3>
+          <ul class="list-unstyled">
+            <li><a href="{{ order }}"><i class="uk-icon-angle-right fa-fw"></i>{{ text_order }}</a></li>
+              {% if reward %}
+                <li><a href="{{ reward }}"><i class="uk-icon-angle-right fa-fw"></i>{{ text_reward }}</a></li>
+              {% endif %}
+            <li><a href="{{ return }}"><i class="uk-icon-angle-right fa-fw"></i>{{ text_return }}</a></li>
+            <li><a href="{{ wishlist }}"><i class="uk-icon-angle-right fa-fw"></i> {{ text_wishlist2 }}</a></li>
+            <li><a href="{{ logout }}"><i class="uk-icon-angle-right fa-fw"></i>{{ text_logout }}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="{{ direction }}" lang="{{ lang }}">
+<!--<![endif]-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{{ title }}</title>
+  <base href="{{ base }}" />
+    {% if description %}
+      <meta name="description" content="{{ description }}" />
+    {% endif %}
+    {% if keywords %}
+      <meta name="keywords" content="{{ keywords }}" />
+    {% endif %}
+
+
+  <link href="catalog/view/theme/ryadiatshop/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link href="catalog/view/theme/ryadiatshop/css/swiper.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="catalog/view/theme/ryadiatshop/css/jquery.fancybox.min.css">
+    {% if direction == 'rtl' %}
+      <link href="catalog/view/javascript/bootstrap/css/bootstrap-a.min.css" rel="stylesheet" media="screen" />
+      <link rel="stylesheet" href="catalog/view/theme/ryadiatshop/css/uikit.min.rtl.css">
+    {% else %}
+      <link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+      <link rel="stylesheet" href="catalog/view/theme/ryadiatshop/css/uikit.min.css">
+
+        <link rel="stylesheet" href="catalog/view/theme/ryadiatshop/css/notify.min.css">
+    {% endif %}
+    {% for style in styles %}
+      <link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+    {% endfor %}
+
+  <link href="catalog/view/theme/ryadiatshop/css/main.css?ver={{ ver }}" rel="stylesheet" type="text/css" />
+    {% if direction == 'rtl' %}
+      <link href="catalog/view/theme/ryadiatshop/css/rtl.css?ver={{ ver }}" rel="stylesheet" type="text/css" />
+    {% endif %}
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+  <script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
+  <script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js"></script>
+  <script src="catalog/view/theme/ryadiatshop/js/uikit.min.js"></script>
+  <script src="catalog/view/theme/ryadiatshop/js/sticky.min.js"></script>
+    <script src="catalog/view/theme/ryadiatshop/js/notify.min.js"></script>
+  <script src="catalog/view/theme/ryadiatshop/js/swiper.min.js"></script>
+  <script src="catalog/view/theme/ryadiatshop/js/jquery.fancybox.min.js"></script>
+  <script src="catalog/view/theme/ryadiatshop/js/common.js?ver={{ ver }}"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+  <style type="text/css">
+    .select2-container--default .select2-selection--single{
+      -webkit-appearance: none;
+      background: #efefef;
+      border-radius: 0;
+      border: 0;
+      width: 100%;
+      transition: all 0.2s;
+      font-size: 13px;
+      min-height: 38px;
+      box-shadow: none;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      line-height: 44px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      top: 6px;
+    }
+  </style>
+
+    {% for script in scripts %}
+      <script src="{{ script }}" type="text/javascript"></script>
+    {% endfor %}
+    {% for link in links %}
+      <link href="{{ link.href }}" rel="{{ link.rel }}" />
+    {% endfor %}
+    {% for analytic in analytics %}
+        {{ analytic }}
+    {% endfor %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-F3CWKTSG9J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-F3CWKTSG9J');
+</script>
+
+</head>
+<body>
+{{ menu_res }}
+
+<div class="header">
+    <div class="uk-container uk-container-center">
+        <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+            <div class="uk-width-medium-3-10 uk-width-1-2 uk-flex-middle">
+                <div class="inside-flex">
+                    <div id="logo">
+                        {% if logo %}<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" /></a>{% else %}
+                            <h1><a href="{{ home }}">{{ name }}</a></h1>
+                        {% endif %}</div>
+                </div>
+            </div>
+            <div class="uk-visible-small uk-width-1-2 uk-flex uk-flex-middle uk-text-right">
+                <div class="inside-flex">
+                    <button data-uk-offcanvas="{target:'#side-menu'}" type="button" class="uk-button uk-button-large show-menu"><i class="uk-icon-bars"></i></button>
+                </div>
+            </div>
+            <div class="uk-width-medium-4-10 uk-width-6-10 uk-flex uk-flex-middle">
+                <div class="inside-flex">
+                    {{ search }}
+                </div>
+            </div>
+            <div class="uk-width-medium-3-10 uk-width-4-10 uk-flex uk-flex-middle uk-text-right">
+                <div class="inside-flex">
+                    <ul class="list-header">
+                        <li><a href="{{ wishlist }}"><i class="uk-icon-heart"></i></a></li>
+                        <li><a href="{{ account }}"><i class="uk-icon-user"></i></a></li>
+                        {% if logged %}
+                            <li><a href="{{ logout }}"><i class="uk-icon-sign-out"></i></a></li>
+                        {% endif %}
+                        {{ cart }}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <hr class="uk-hidden-small">
+        {{ menu }}
+    </div>
+</div>

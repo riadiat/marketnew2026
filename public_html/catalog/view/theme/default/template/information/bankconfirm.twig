@@ -1,0 +1,16 @@
+{{ header }}
+<div id="information-bankconfirm" class="container">
+    <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            <h1>{{ heading_title }}</h1>
+            {{ advanced_bank_transfer_form }}
+        </div>
+    </div>
+</div>
+
+{{ footer }}

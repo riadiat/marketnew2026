@@ -1,0 +1,57 @@
+# --- Secrets / per-environment ------------------------------------------
+# config.php files hold DB credentials. Keep them out of the repo and deploy
+# them via the server (see docs/DEPLOYMENT.md).
+public_html/config.php
+public_html/admin/config.php
+public_html/seller-cp/config.php
+.env
+
+# --- Runtime data --------------------------------------------------------
+storage/cache/*
+storage/cache-seller/*
+storage/logs/*
+storage/logs-seller/*
+storage/session/*
+storage/session-seller/*
+storage/modification/*
+storage/modification-seller/*
+storage/download/*
+storage/download-seller/*
+storage/upload/*
+storage/xls/*
+public_html/system/storage/cache/*
+public_html/system/storage/cache-seller/*
+public_html/system/storage/logs/*
+public_html/system/storage/logs-seller/*
+public_html/system/storage/session/*
+public_html/system/storage/session-seller/*
+public_html/system/storage/modification/*
+public_html/system/storage/modification-seller/*
+public_html/system/storage/upload/*
+!**/index.html
+!**/.htaccess
+
+# Generated thumbnails (regenerated on demand)
+public_html/image/cache/
+
+# NOTE: storage/vendor/ and public_html/system/storage/vendor/ are deliberately
+# committed. composer.json pins 2017-era packages that no longer resolve on PHP
+# 8.3, and the bundled copies carry local PHP 8 fixes (see docs/PHP83-NOTES.md).
+# Do not run `composer install` against this project.
+
+# --- Large / non-source assets ------------------------------------------
+# 153 MB SQL dump + 720 MB of uploaded product images: keep these in object
+# storage or a backup bucket, not in git.
+database/*.sql
+database/*.sql.gz
+public_html/image/catalog/
+
+# --- OS / editor ---------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# --- Forensic copies of obfuscated files (see docs/SECURITY.md) ----------
+.quarantine/

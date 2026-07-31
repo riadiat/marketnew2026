@@ -1,0 +1,29 @@
+<div class="block-product">
+    <a href="{{ product.href }}" class="thumb">
+        <img src="{{ product.thumb }}" alt="{{ product.name }}">
+        {#<div class="content uk-flex uk-flex-middle">
+            #}{#<div class="inside-flex">
+                <button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');">{{ button_cart }}</button>
+            </div>#}{#
+        </div>#}
+    </a>
+    <div class="content">
+        <h3><a href="{{ product.href }}">{{ product.name }}</a></h3>
+
+        {% if product.price %}
+            <p class="price">
+                {% if not product.special %}
+                    <span class="new">{{ product.price }}</span>
+                {% else %}
+                    <span class="old">{{ product.price }}</span>
+                    <span class="new">{{ product.special }}</span>
+                {% endif %}
+            </p>
+        {% endif %}
+
+        <div class="uk-margin">
+            <button class="btn btn-primary btn-block" type="button" onclick="cart.add('{{ product.product_id }}', '1');">{{ button_cart }}</button>
+        </div>
+    </div>
+
+</div>

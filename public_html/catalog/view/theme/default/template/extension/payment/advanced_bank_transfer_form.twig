@@ -1,0 +1,268 @@
+<form id="bank-form" action="javascript:;" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+  <div class="form-group">
+    <div class="col-xs-12">
+      <h3>{{ text_select_bank }}</h3>
+      <ul class="list-banks">
+          {% for bank in banks %}
+            <li>
+              <label class="block-bank-list-ah">
+                <input type="radio" name="bank" value="{{ bank.name }}">
+                <img src="{{ bank.image }}" alt="">
+                <span class="ah-grid">
+                  <span class="name">{{ bank.name }}</span>
+                  <span class="sub">{{ text_banks_number}} : {{ bank.number }}</span>
+                  <span class="sub">{{ text_banks_iban}} : {{ bank.iban }}</span>
+                </span>
+              </label>
+            </li>
+          {% endfor %}
+      </ul>
+
+      <p id="error-bank" class="text-t-d"></p>
+    </div>
+  </div>
+
+  {% if is_order %}
+  <div class="form-group required">
+    <label class="col-sm-2 control-label" for="input-order_id">{{ entry_order_id }}</label>
+    <div class="col-sm-10">
+      <input type="text" name="order_id" value="{{ order_id }}" id="input-order_id" class="form-control number-input" />
+      <p id="error-order_id" class="text-t-d"></p>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="form-group required">
+    <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+    <div class="col-sm-10">
+      <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />
+      <p id="error-name" class="text-t-d"></p>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <label class="col-sm-2 control-label" for="input-amount">{{ entry_amount }}</label>
+    <div class="col-sm-10">
+      <input type="text" name="amount" value="" id="input-amount" class="form-control number-input" />
+      <p id="error-amount" class="text-t-d"></p>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <label class="col-sm-2 control-label" for="input-image">{{ entry_image }}</label>
+    <div class="col-sm-10">
+      <div class="row">
+        <div class="col-sm-4">
+          <button type="button" id="button-upload" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-block"><i class="fa fa-upload"></i> {{ button_upload_image }}</button>
+          <input type="hidden" name="image" value="" id="input-option" />
+        </div>
+      </div>
+      <p id="error-image" class="text-t-d"></p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label" for="input-comment">{{ entry_comment }}</label>
+    <div class="col-sm-10">
+      <textarea name="comment" id="input-comment"  class="form-control" rows="5"></textarea>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <div class="col-xs-12 clearfix">
+      <div class="pull-right">
+        <button id="button-confirm" data-loading-text="{{ text_loading }}" type="submit" class="btn btn-primary">{{ text_button_approve }}</button>
+      </div>
+      {% if not is_order %}
+      <div class="pull-left">
+        <button id="button-skip" data-loading-text="{{ text_loading }}" type="button" class="btn btn-default">{{ text_button_skip }}</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</form>
+<style>
+  .list-banks{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .list-banks li{
+    margin-bottom: 10px;
+  }
+  .list-banks label{
+    display: block;
+  }
+  .block-bank-list-ah{
+    display: block;
+    position: relative;
+    border: 1px solid #dedede;
+    padding: 10px;
+    min-height: 80px;
+    cursor: pointer;
+  }
+  .block-bank-list-ah.active{
+    border-color: #333;
+  }
+  .block-bank-list-ah input{
+    position: absolute;
+    left:-9999em;
+  }
+  html[dir='rtl'] .block-bank-list-ah input{
+    right:-9999em;
+    left: auto;
+  }
+  .block-bank-list-ah img{
+    padding: 3px;
+    box-sizing: border-box;
+    border: #dedede solid 1px;
+  }
+  .block-bank-list-ah span{
+    display: block;
+  }
+  .block-bank-list-ah .name{
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .block-bank-list-ah .sub{
+    margin-bottom: 5px;
+    color: #333;
+  }
+  .block-bank-list-ah .ah-grid , .block-bank-list-ah img{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .block-bank-list-ah input:checked ~ label{
+    display: none;
+  }
+</style>
+<script type="text/javascript"><!--
+    $('#bank-form').on('submit', function() {
+        $('.text-t-d').text('').removeClass('text-danger');
+        var data = $(this).serializeArray();
+        $.ajax({
+            url: 'index.php?route=extension/payment/advanced_bank_transfer/confirm',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function() {
+                $('#button-confirm').button('loading');
+            },
+            complete: function() {
+                $('#button-confirm').button('reset');
+            },
+            success: function(json) {
+                if(json['success']){
+                    if (json['redirect']) {
+                        location = json['redirect'];
+                    }
+                }else{
+                    $.each(json['errors'],function (k, v) {
+                        $('#error-'+k).text(v).addClass('text-danger');
+                    });
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+    $('#button-skip').on('click', function() {
+        var data = $(this).serializeArray();
+        $.ajax({
+            url: 'index.php?route=extension/payment/advanced_bank_transfer/skip',
+            data: data,
+            type: 'post',
+            dataType: 'json',
+            beforeSend: function() {
+                $('#button-skip').button('loading');
+            },
+            complete: function() {
+                $('#button-skip').button('reset');
+            },
+            success: function(json) {
+
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+    $('.block-bank-list-ah').click(function () {
+        $('.block-bank-list-ah').removeClass('active');
+        var checked = $(this).find('input').is(':checked');
+        if(checked){
+            $(this).toggleClass('active');
+        }
+
+    });
+
+    $(".number-input").keydown(function (e) {
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            return;
+        }
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
+    $('button[id^=\'button-upload\']').on('click', function() {
+        var node = this;
+
+        $('#form-upload').remove();
+
+        $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input accept=".jpg, .jpeg, .png" type="file" name="file" /></form>');
+
+        $('#form-upload input[name=\'file\']').trigger('click');
+
+        if (typeof timer != 'undefined') {
+            clearInterval(timer);
+        }
+
+        timer = setInterval(function() {
+            if ($('#form-upload input[name=\'file\']').val() != '') {
+                clearInterval(timer);
+
+                $.ajax({
+                    url: 'index.php?route=tool/upload',
+                    type: 'post',
+                    dataType: 'json',
+                    data: new FormData($('#form-upload')[0]),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $(node).html($(node).data('loading-text'));
+                    },
+                    complete: function() {
+                        $(node).html("<i class='fa fa-check-square-o'></i> {{ text_after_upload_img }}").prop('disable');
+                    },
+                    success: function(json) {
+                        $('.text-danger').text('');
+
+                        if (json['error']) {
+                            $(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
+                        }
+
+                        if (json['success']) {
+                            $(node).removeClass('btn-primary');
+                            $(node).addClass('btn-success');
+                            $(node).parent().find('input').val(json['code']);
+                        }
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        }, 500);
+    });
+//--></script>

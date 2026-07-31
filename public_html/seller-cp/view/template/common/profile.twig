@@ -1,0 +1,194 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-user" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-user" class="form-horizontal">
+          {#<div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-username">{{ entry_username }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="username" value="{{ username }}" placeholder="{{ entry_username }}" id="input-username" class="form-control" />
+              {% if error_username %}
+              <div class="text-danger">{{ error_username }}</div>
+              {% endif %}
+            </div>
+          </div>#}
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-firstname">{{ entry_firstname }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" class="form-control" />
+              {% if error_firstname %}
+              <div class="text-danger">{{ error_firstname }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-lastname">{{ entry_lastname }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" class="form-control" />
+              {% if error_lastname %}
+              <div class="text-danger">{{ error_lastname }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-age">{{ entry_age }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="age" value="{{ age }}" placeholder="{{ entry_age }}" id="input-age" class="form-control" />
+                {% if error_age %}
+                  <div class="text-danger">{{ error_age }}</div>
+                {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-region">{{ entry_region }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="region" value="{{ region }}" placeholder="{{ entry_region }}" id="input-region" class="form-control" />
+                {% if error_region %}
+                  <div class="text-danger">{{ error_region }}</div>
+                {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-nation_id">{{ entry_nation_id }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="nation_id" value="{{ nation_id }}" placeholder="{{ entry_nation_id }}" id="input-nation_id" class="form-control" />
+                {% if error_nation_id %}
+                  <div class="text-danger">{{ error_nation_id }}</div>
+                {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-bank_name">{{ entry_bank_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="bank_name" value="{{ bank_name }}" placeholder="{{ entry_bank_name }}" id="input-bank_name" class="form-control" />
+                {% if error_bank_name %}
+                  <div class="text-danger">{{ error_bank_name }}</div>
+                {% endif %}
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-bank_iban">{{ entry_bank_iban }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="bank_iban" value="{{ bank_iban }}" placeholder="{{ entry_bank_iban }}" id="input-bank_iban" class="form-control" />
+                {% if error_bank_iban %}
+                  <div class="text-danger">{{ error_bank_iban }}</div>
+                {% endif %}
+            </div>
+          </div>
+
+
+          <div class="form-group required hidden">
+            <label class="col-sm-2 control-label" for="input-banner">{{ entry_simple_img }}</label>
+            <div class="col-sm-10"><a href="" id="thumb-simple_img" data-toggle="image" class="img-thumbnail"><img src="{{ simple_img_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+              <input type="hidden" name="simple_img" value="{{ simple_img }}" id="input-simple_img" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-instagram">{{ entry_instagram }}</label>
+            <div class="col-sm-10">
+              <div class="input-group">
+                <input type="tel" id="input-instagram" name="instagram" value="{{ instagram }}" class="form-control" placeholder="{{ entry_instagram }}">
+                <span class="input-group-addon">@</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-note">{{ entry_note }}</label>
+            <div class="col-sm-10">
+              <textarea name="note" class="form-control" id="input-note" cols="30" rows="5">{{ note }}</textarea>
+            </div>
+          </div>
+
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+              {% if error_email %}
+              <div class="text-danger">{{ error_email }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-desc">{{ entry_desc }}</label>
+            <div class="col-sm-10">
+              <textarea data-toggle="summernote" data-lang="{{ summernote }}" name="desc" id="input-desc" class="form-control" cols="30" rows="10">{{ desc }}</textarea>
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-image">{{ entry_image }}</label>
+            <div class="col-sm-10"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+              <input type="hidden" name="image" value="{{ image }}" id="input-image" />
+                {% if error_image %}
+                  <p class="text-danger">{{ error_image }}</p>
+                {% endif %}
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-banner">{{ entry_banner }}</label>
+            <div class="col-sm-10"><a href="" id="thumb-banner" data-toggle="image" class="img-thumbnail"><img src="{{ banner_thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+              <input type="hidden" name="banner" value="{{ banner }}" id="input-banner" />
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-password">{{ entry_password }}</label>
+            <div class="col-sm-10">
+              <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" autocomplete="off" />
+              {% if error_password %}
+              <div class="text-danger">{{ error_password }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-confirm">{{ entry_confirm }}</label>
+            <div class="col-sm-10">
+              <input type="password" name="confirm" value="{{ confirm }}" placeholder="{{ entry_confirm }}" id="input-confirm" class="form-control" />
+              {% if error_confirm %}
+              <div class="text-danger">{{ error_confirm }}</div>
+              {% endif %}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+{{ footer }}

@@ -1,0 +1,62 @@
+<footer class="footer uk-margin-large-top">
+  <div class="uk-container uk-container-center">
+    <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+      <div class="uk-width-medium-1-4 uk-width-1-2">
+        <h3 class="footer-title">{{ text_information }}</h3>
+        <ul class="menu-footer">
+            {% for information in informations %}
+              <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+            {% endfor %}
+        </ul>
+      </div>
+      <div class="uk-width-medium-1-4 uk-width-1-2">
+        <h3 class="footer-title">{{ text_service }}</h3>
+        <ul class="menu-footer">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+          <li><a href="{{ bankconfirm_link }}">{{ bankconfirm_text }}</a></li>
+        </ul>
+      </div>
+      <div class="uk-width-medium-1-4 uk-width-1-2">
+        <h3 class="footer-title">{{ text_account }}</h3>
+        <ul class="menu-footer">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ admin_seller_login }}">{{ login_seller }}</a></li>
+          <li><a href="{{ admin_seller_register }}">{{ new_seller }}</a></li>
+        </ul>
+      </div>
+      <div class="uk-width-medium-1-4 uk-width-1-2">
+        <h3 class="footer-title">{{ text_to_subscribe }}</h3>
+        <form method="post" action="index.php?route=common/footer/email" class="block-form-mail uk-margin-bottom">
+          <input class="form-control" name="email" type="email" placeholder="{{ text_maillist_email }}">
+          <button type="submit" class="btn">{{ text_maillist_button }}</button>
+        </form>
+        <ul class="social-media-footer">
+          <li class="instagram"><a href="#" target="_blank"><i class="uk-icon-instagram"></i></a></li>
+          <li class="twitter"><a href="#" target="_blank"><i class="uk-icon-twitter"></i></a></li>
+          <li class="snapchat"><a href="#" target="_blank"><i class="uk-icon-snapchat-ghost"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+<footer class="copyrights">
+  <div class="uk-container uk-container-center">
+    <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+      <div class="uk-width-7-10 uk-flex uk-flex-middle">
+        <p>{{ powered }}</p>
+      </div>
+      <div class="uk-width-3-10">
+        <img class="payment-img" src="catalog/view/theme/ryadiatshop/images/payment.png" alt="">
+      </div>
+    </div>
+  </div>
+</footer>
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+<script src="//code.tidio.co/da7ka2iwtjwusvlhstgbd7vgifdzkli3.js" async>
+</script>
+</body></html>

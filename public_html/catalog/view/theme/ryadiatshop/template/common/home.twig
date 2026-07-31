@@ -1,0 +1,185 @@
+{{ header }}
+{% if slider_1 %}
+  <div class="uk-margin-large-bottom">
+    <div id="slider-1" class="swiper-container slider-nav slider-home">
+      <div class="swiper-wrapper">{% for item in slider_1 %}
+          <div class="swiper-slide">{% if item.link %}<a href="{{ item.link }}"><img src="{{ item.full_image }}" alt="{{ item.title }}" class="img-responsive uk-width-1-1" /></a>{% else %}<img src="{{ item.full_image }}" alt="{{ item.title }}" class="img-responsive uk-width-1-1" />{% endif %}</div>
+          {% endfor %}</div>
+
+        <div class="swiper-pagination slider-pagination slideshow{{ module }}"></div>
+    </div>
+  </div>
+{% endif %}
+
+
+<div class="uk-container uk-container-center">
+    {{ featured_1.html }}
+</div>
+
+<div class="wrap-vendors">
+    <div class="uk-container uk-container-center">
+        <div class="block-title block-title-center">
+            <h3>{{ text_designer }}</h3>
+        </div>
+
+        <div class="uk-grid" data-uk-grid-margin data-uk-grid-match>
+            {% for seller in sellers %}
+                <div class="uk-width-medium-1-6 uk-width-1-2">
+                    <div class="block-seller-home">
+                        <a href="{{ seller.link }}"><img src="{{ seller.image }}" alt=""></a>
+                        <h3><a href="{{ seller.link }}">{{ seller.name }}</a></h3>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% if banner_1 %}
+    <div class="uk-margin-large-bottom uk-margin-large-top">
+        {% for banner2 in banner_1 %}
+            <div class="large-banner uk-margin-bottom">
+                {% if banner2.link %}
+                    <a href="{{ banner2.link }}">
+                        <img class="uk-width-1-1" src="{{ banner2.full_image }}" alt="{{ banner2.title }}"/>
+                    </a>
+                {% else %}
+                    <img class="uk-width-1-1" src="{{ banner2.full_image }}" alt="{{ banner2.title }}" />
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if featured_2 %}
+    <div class="uk-container uk-container-center">
+        {{ featured_2.html }}
+    </div>
+{% endif %}
+
+{% if banner_2 %}
+    <div class="block-feat">
+        <div class="uk-container uk-container-center">
+            <div id="slider-f" class="swiper-container slider-nav slider-home">
+                <div class="swiper-wrapper">
+                    {% for item in banner_2 %}
+                        <div class="swiper-slide block-f-item">
+                            {% if item.link %}
+                            <a href="{{ item.link }}">
+                                <img src="{{ item.full_image }}" alt="{{ item.title }}" /></a>
+                            {% else %}
+                                <img src="{{ item.full_image }}" alt="{{ item.title }}" />
+                            {% endif %}
+                            <h3>{{ item.title }}</h3>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+
+<div class="uk-container uk-container-center">
+    <div class="block-title block-title-cu  uk-clearfix">
+        <div class="uk-float-left">
+            <h3>{{ ryadiat_tv }}</h3>
+        </div>
+        <div class="uk-float-right">
+            <ul class="list-slider-button">
+                <li><button class="slider-tv-button-next" type="button"><i class="fa fa-angle-right"></i></button></li>
+                <li><button class="slider-tv-button-prev" type="button"><i class="fa fa-angle-left"></i></button></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="slider-b" class="swiper-container slider-nav slider-home">
+        <div class="swiper-wrapper">
+            {% for video in videos %}
+                <div class="swiper-slide">
+                    <a href="{{ video.youtube_url }}" class="block-video" data-fancybox>
+                        <img src="https://i.ytimg.com/vi/{{ video.video_id }}/maxresdefault.jpg" alt="">
+                        <i class="fa fa-play-circle-o"></i>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    new Swiper('#slider-f', {
+        slidesPerView: 5,
+        simulateTouch:false,
+        loop: false,
+        autoplay: {
+            delay: 2500,
+        },
+        spaceBetween: 10,
+        breakpoints: {
+            1075: {
+                slidesPerView: 5,
+                loop: true
+            },
+            768: {
+                slidesPerView: 4,
+                loop: true
+            },
+            640: {
+                slidesPerView: 2,
+                loop: true
+            },
+            320: {
+                slidesPerView: 2,
+                loop: true
+            }
+        }
+    });
+
+    new Swiper('#slider-1', {
+        slidesPerView: 1,
+        loop: false,
+        autoplay: {
+            delay: 3000,
+        },
+        spaceBetween: 10,
+        pagination: {
+            el: '.slideshow{{ module }}',
+            clickable:true
+        },
+    });
+
+    new Swiper('#slider-b', {
+        slidesPerView: 4,
+        simulateTouch:false,
+        loop: false,
+        autoplay: {
+            delay: 2500,
+        },
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '.slider-tv-button-next{{ module }}',
+            prevEl: '.slider-tv-button-prev{{ module }}'
+        },
+        breakpoints: {
+            1075: {
+                slidesPerView: 4,
+                loop: true
+            },
+            768: {
+                slidesPerView: 3,
+                loop: true
+            },
+            640: {
+                slidesPerView: 2,
+                loop: true
+            },
+            320: {
+                slidesPerView: 2,
+                loop: true
+            }
+        }
+    });
+</script>
+
+{{ footer }}
