@@ -1,9 +1,8 @@
 # --- Secrets / per-environment ------------------------------------------
-# config.php files hold DB credentials. Keep them out of the repo and deploy
-# them via the server (see docs/DEPLOYMENT.md).
-public_html/config.php
-public_html/admin/config.php
-public_html/seller-cp/config.php
+# The three config.php files are committed: they contain no credentials any
+# more, only __DIR__-derived paths and oc_env() lookups. Real values come from
+# the vhost, the environment, or this file — which never gets committed.
+public_html/env.local.php
 .env
 
 # --- Runtime data --------------------------------------------------------
@@ -36,7 +35,7 @@ public_html/image/cache/
 
 # NOTE: storage/vendor/ and public_html/system/storage/vendor/ are deliberately
 # committed. composer.json pins 2017-era packages that no longer resolve on PHP
-# 8.3, and the bundled copies carry local PHP 8 fixes (see docs/PHP83-NOTES.md).
+# 8.3, and the bundled copies carry local PHP 8 fixes.
 # Do not run `composer install` against this project.
 
 # --- Large / non-source assets ------------------------------------------
