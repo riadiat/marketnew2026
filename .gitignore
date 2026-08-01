@@ -55,3 +55,7 @@ Thumbs.db
 
 # --- Forensic copies of obfuscated files (see docs/SECURITY.md) ----------
 .quarantine/
+/docs/*
+/.docker/*
+docker-compose.yml
+README.md
