@@ -110,8 +110,11 @@ if (!class_exists('Equotix')) {
 			curl_setopt($curl, CURLOPT_HEADER, false);
 			curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 			curl_setopt($curl, CURLOPT_USERAGENT, 'OpenCart Extension Licensing System');
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+			// This posts the licence key and store domain to a third party and
+			// acts on the JSON it gets back. Verifying the certificate is the
+			// only thing stopping that response being attacker-controlled.
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 			curl_setopt($curl, CURLOPT_FORBID_REUSE, false);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_URL, 'https://license.marketinsg.com/index.php?load=common/home/checkUpdate');
@@ -220,8 +223,11 @@ if (!class_exists('Equotix')) {
 			curl_setopt($curl, CURLOPT_HEADER, false);
 			curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 			curl_setopt($curl, CURLOPT_USERAGENT, 'OpenCart Extension Licensing System');
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+			// This posts the licence key and store domain to a third party and
+			// acts on the JSON it gets back. Verifying the certificate is the
+			// only thing stopping that response being attacker-controlled.
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 			curl_setopt($curl, CURLOPT_FORBID_REUSE, false);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_URL, 'https://license.marketinsg.com/index.php?load=common/home/validatelicense');

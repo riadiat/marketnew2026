@@ -1,8 +1,9 @@
 <?php
 class ModelSellerRegister extends Model {
     public function register($data){
-        $username = strip_tags($data['username']);
-        $username = strtolower(trim($username));
+        // strip_tags() is not SQL escaping — every other field in the INSERT
+        // below is escaped, this one was not, and registration is public.
+        $username = $this->db->escape(strtolower(trim(strip_tags($data['username']))));
 
         $status = 0;
         $user_group_id = 1;
