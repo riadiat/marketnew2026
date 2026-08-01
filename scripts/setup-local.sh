@@ -4,6 +4,9 @@
 #
 #   sudo ./scripts/setup-local.sh
 #
+# If the MySQL root account has a password rather than socket auth:
+#   sudo MYSQL_ROOT_PASS=secret ./scripts/setup-local.sh
+#
 # Skip the database import (much faster on a re-run):
 #   SKIP_DB=1 sudo ./scripts/setup-local.sh
 
@@ -13,12 +16,32 @@ PROJECT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DOMAIN="${DOMAIN:-ewmarket.localhost}"
 DB_NAME="${DB_NAME:-ewmarket}"
 DB_USER="${DB_USER:-ewmarket}"
-DB_PASS="${DB_PASS:-ewmarket}"
+# Satisfies MySQL's validate_password MEDIUM policy (8+ chars, mixed case,
+# digit, symbol), which is on by default in several distro packages.
+DB_PASS="${DB_PASS:-Ewm@rket2026}"
 DUMP="${DUMP:-$PROJECT/database/ewmarket_08_01_2024.sql}"
+MYSQL_ROOT_USER="${MYSQL_ROOT_USER:-root}"
+MYSQL_ROOT_PASS="${MYSQL_ROOT_PASS:-}"
 
 [[ $EUID -eq 0 ]] || { echo "run with sudo"; exit 1; }
 
 say() { printf '\n\033[1;36m==> %s\033[0m\n' "$1"; }
+
+# Admin connection. Ubuntu's default root@localhost is socket auth, but a root
+# with a password is just as common — pass MYSQL_ROOT_PASS for that. Credentials
+# go through a 0600 defaults-file so they never appear in `ps` output.
+MYSQL_CNF=""
+cleanup() { [[ -n "$MYSQL_CNF" ]] && rm -f "$MYSQL_CNF"; }
+trap cleanup EXIT
+
+if [[ -n "$MYSQL_ROOT_PASS" ]]; then
+    MYSQL_CNF="$(mktemp)"
+    chmod 600 "$MYSQL_CNF"
+    printf '[client]\nuser=%s\npassword=%s\n' "$MYSQL_ROOT_USER" "$MYSQL_ROOT_PASS" > "$MYSQL_CNF"
+    mysql_admin() { mysql --defaults-file="$MYSQL_CNF" "$@"; }
+else
+    mysql_admin() { mysql "$@"; }
+fi
 
 # ---------------------------------------------------------------- packages
 say "PHP 8.3 extensions"
@@ -51,24 +74,31 @@ echo "wrote /etc/php/8.3/{fpm,cli}/conf.d/99-opencart.ini"
 # ---------------------------------------------------------------- database
 if [[ "${SKIP_DB:-0}" != "1" ]]; then
     say "Database"
-    mysql <<SQL
+    if ! mysql_admin -e "SELECT 1" >/dev/null 2>&1; then
+        echo "cannot connect to MySQL as '$MYSQL_ROOT_USER'."
+        echo "if that account has a password, re-run with:"
+        echo "  sudo MYSQL_ROOT_PASS=... $0"
+        exit 1
+    fi
+    mysql_admin <<SQL
 CREATE DATABASE IF NOT EXISTS \`$DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';
 CREATE USER IF NOT EXISTS '$DB_USER'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
+ALTER USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';
+ALTER USER '$DB_USER'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
 GRANT ALL PRIVILEGES ON \`$DB_NAME\`.* TO '$DB_USER'@'localhost', '$DB_USER'@'127.0.0.1';
 FLUSH PRIVILEGES;
 SQL
-    if [[ $(mysql -N -B -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$DB_NAME'") -lt 100 ]]; then
+    if [[ $(mysql_admin -N -B -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$DB_NAME'") -lt 100 ]]; then
         [[ -f "$DUMP" ]] || { echo "dump not found: $DUMP"; exit 1; }
         echo "importing $(du -h "$DUMP" | cut -f1) — takes a few minutes"
-        mysql "$DB_NAME" < "$DUMP"
+        mysql_admin "$DB_NAME" < "$DUMP"
     else
         echo "already populated, skipping import"
     fi
-    mysql "$DB_NAME" -e "
-        UPDATE oc_setting SET value='http://$DOMAIN/' WHERE \`key\` IN ('config_url','config_ssl');
-        UPDATE oc_setting SET value='0' WHERE \`key\`='config_maintenance';"
-    echo "pointed config_url/config_ssl at http://$DOMAIN/"
+    # No config_url/config_ssl rows exist in this store — startup.php falls
+    # back to HTTP_SERVER, i.e. OC_URL from the vhost. Nothing to repoint.
+    mysql_admin "$DB_NAME" -e "UPDATE oc_setting SET value='0' WHERE \`key\`='config_maintenance';"
 fi
 
 # ---------------------------------------------------------------- apache
