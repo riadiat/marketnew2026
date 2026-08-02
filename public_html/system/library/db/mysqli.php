@@ -8,7 +8,21 @@ final class MySQLi {
 		// checks errno/connect_error by hand, so restore the old behaviour.
 		mysqli_report(MYSQLI_REPORT_OFF);
 
-		$this->connection = new \mysqli($hostname, $username, $password, $database, $port);
+		// Managed database services (DigitalOcean, RDS) hand out a CA bundle and
+		// expect a verified TLS connection. Point DB_SSL_CA at it to enable that;
+		// with the constant unset this behaves exactly as it always has.
+		$ca = defined('DB_SSL_CA') ? DB_SSL_CA : '';
+
+		if ($ca) {
+			$this->connection = mysqli_init();
+			$this->connection->ssl_set(null, null, $ca, null, null);
+			$this->connection->real_connect(
+				$hostname, $username, $password, $database, (int)$port, null,
+				MYSQLI_CLIENT_SSL
+			);
+		} else {
+			$this->connection = new \mysqli($hostname, $username, $password, $database, $port);
+		}
 
 		if ($this->connection->connect_error) {
 			throw new \Exception('Error: ' . $this->connection->error . '<br />Error No: ' . $this->connection->errno);

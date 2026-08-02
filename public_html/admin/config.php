@@ -44,5 +44,9 @@ define('DB_DATABASE', oc_env('DB_DATABASE', 'ewmarket'));
 define('DB_PORT', oc_env('DB_PORT', '3306'));
 define('DB_PREFIX', 'oc_');
 
+// Path to a CA bundle, when the database requires a verified TLS connection
+// (DigitalOcean Managed MySQL and friends). Empty means plain connection.
+define('DB_SSL_CA', oc_env('DB_SSL_CA', ''));
+
 // OpenCart API
 define('OPENCART_SERVER', 'https://www.opencart.com/');

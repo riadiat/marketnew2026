@@ -1,0 +1,63 @@
+# Production vhost template. scripts/server-bootstrap.sh fills in the
+# placeholders and installs it; certbot adds the :443 block and the redirect.
+#
+# Placeholders: __DOMAIN__ __PROJECT__ __DB_HOST__ __DB_PORT__ __DB_USER__
+#               __DB_PASS__ __DB_NAME__ __DB_SSL_CA__ __SCHEME__
+
+<VirtualHost *:80>
+    ServerName __DOMAIN__
+    DocumentRoot __PROJECT__/public_html
+
+    # OpenCart reads these through public_html/env.php. Keeping them here rather
+    # than in a committed file is what lets config.php stay credential-free.
+    SetEnv OC_URL      "__SCHEME__://__DOMAIN__/"
+    SetEnv DB_HOSTNAME "__DB_HOST__"
+    SetEnv DB_PORT     "__DB_PORT__"
+    SetEnv DB_USERNAME "__DB_USER__"
+    SetEnv DB_PASSWORD "__DB_PASS__"
+    SetEnv DB_DATABASE "__DB_NAME__"
+    SetEnv DB_SSL_CA   "__DB_SSL_CA__"
+
+    <Directory __PROJECT__/public_html>
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # storage/ lives outside the docroot; this blocks the in-tree copy, which
+    # holds sessions, logs and the composer vendor trees.
+    <Directory __PROJECT__/public_html/system/storage>
+        Require all denied
+    </Directory>
+
+    # Nothing under image/ or the upload dirs should ever execute.
+    <Directory __PROJECT__/public_html/image>
+        <FilesMatch "\.(php|phtml|phar)$">
+            Require all denied
+        </FilesMatch>
+    </Directory>
+
+    <FilesMatch \.php$>
+        SetHandler "proxy:unix:/run/php/php8.3-fpm.sock|fcgi://localhost/"
+    </FilesMatch>
+
+    # The .htaccess already denies these, but AllowOverride could be tightened
+    # later and this should not quietly stop applying.
+    <FilesMatch "(?i)\.(tpl|twig|ini|log|sql|pem|key)$">
+        Require all denied
+    </FilesMatch>
+
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresByType image/jpeg "access plus 30 days"
+        ExpiresByType image/png  "access plus 30 days"
+        ExpiresByType text/css   "access plus 7 days"
+        ExpiresByType application/javascript "access plus 7 days"
+    </IfModule>
+
+    ErrorLog  ${APACHE_LOG_DIR}/__DOMAIN__-error.log
+    CustomLog ${APACHE_LOG_DIR}/__DOMAIN__-access.log combined
+</VirtualHost>
