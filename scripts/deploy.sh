@@ -63,7 +63,25 @@ if [[ -z "$URL" ]]; then
     exit 0
 fi
 
-CODE="$(curl -sS -o /tmp/deploy-check.html -w '%{http_code}' --max-time 30 "$URL" || echo 000)"
+# -L so that an http:// URL still passes once certbot has added the redirect.
+# curl's own error goes to a file rather than being swallowed: a TLS handshake
+# failure and a 500 need different fixes and should not look alike.
+# `|| CURL_RC=$?` rather than a bare assignment: under set -e a failing command
+# substitution would take the script down before this could be reported.
+CURL_RC=0
+CODE="$(curl -sSL -o /tmp/deploy-check.html -w '%{http_code}' --max-time 30 \
+        "$URL" 2>/tmp/deploy-check.err)" || CURL_RC=$?
+
+if [[ $CURL_RC -ne 0 ]]; then
+    echo "could not reach $URL"
+    sed 's/^/  /' /tmp/deploy-check.err
+    case $CURL_RC in
+        35|60) echo "  TLS problem — has certbot run for this host yet?" ;;
+        7)     echo "  connection refused — is Apache running?" ;;
+        6)     echo "  DNS did not resolve" ;;
+    esac
+    exit 1
+fi
 
 if [[ "$CODE" != 200 ]]; then
     echo "storefront returned HTTP $CODE — check storage/logs/error.log"
