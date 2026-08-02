@@ -5,6 +5,15 @@
 public_html/env.local.php
 .env
 
+# Certificates and private keys. storage/new_cer/ held an Apple Pay private key
+# that was committed and pushed; it has been purged from history and must not
+# come back. Deploy this material onto the server, never through the repo.
+storage/new_cer/
+*.pem
+*.key
+*.p12
+*.pfx
+
 # --- Runtime data --------------------------------------------------------
 storage/cache/*
 storage/cache-seller/*
