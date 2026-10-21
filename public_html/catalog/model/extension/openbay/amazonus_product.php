@@ -14,7 +14,7 @@ class ModelExtensionOpenBayAmazonusProduct extends Model {
 
 	public function linkItems(array $data) {
 		foreach ($data as $amazonus_sku => $product_id) {
-			$var_row = $this->db->query("SELECT `var` FROM `" . DB_PREFIX . "amazonus_product` WHERE `sku` = '" . $amazonus_sku . "' AND `product_id` = '" . (int)$product_id . "'")->row;
+			$var_row = $this->db->query("SELECT `var` FROM `" . DB_PREFIX . "amazonus_product` WHERE `sku` = '" . $this->db->escape($amazonus_sku) . "' AND `product_id` = '" . (int)$product_id . "'")->row;
 			$var = isset($var_row['var']) ? $var_row['var'] : '';
 			$this->linkProduct($amazonus_sku, $product_id, $var);
 		}
