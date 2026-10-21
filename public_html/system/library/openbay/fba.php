@@ -237,15 +237,15 @@ final class fba {
 
 		// start date filter
 		if (isset($filter['filter_start'])) {
-			$sql .= " AND `created` >= '".$filter['filter_start']."'";
+			$sql .= " AND `created` >= '".$this->db->escape($filter['filter_start'])."'";
 		}
 		// end date filter
 		if (isset($filter['filter_end'])) {
-			$sql .= " AND `created` <= '".$filter['filter_end']."'";
+			$sql .= " AND `created` <= '".$this->db->escape($filter['filter_end'])."'";
 		}
 		// status filter
 		if (isset($filter['filter_status'])) {
-			$sql .= " AND `status` = '".$filter['filter_status']."'";
+			$sql .= " AND `status` = '".$this->db->escape($filter['filter_status'])."'";
 		}
 
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "fba_order` WHERE 1 ".$sql." ORDER BY `created` DESC");
